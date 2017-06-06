@@ -21,6 +21,6 @@ app.get('/', function(req, res) {
     res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-app.listen(3000, function() {
+app.listen(3001, function() {
     console.log('Slideshow available on port 3001!');
 });
