@@ -8,14 +8,17 @@
             margin: 0;
             overflow: hidden;
         }
+
         #image {
             width: 100vw;
             height: 100vh;
             background-position: center;
             background-size: cover;
-            -webkit-transition: background-image 2s ease; /* Safari */
+            -webkit-transition: background-image 2s ease;
+            /* Safari */
             transition: background-image 2s ease;
-            -webkit-transition-delay: 1s; /* Safari */
+            -webkit-transition-delay: 1s;
+            /* Safari */
             transition-delay: 1s;
         }
     </style>
@@ -31,11 +34,12 @@
         var images = [];
         var currentImageIndex = -1;
         var slideshowTimeout;
+
         function updateImages() {
             console.log('Checking for new images...')
             $.ajax({
                 url: "/images",
-                success: function(result) {
+                success: function (result) {
                     if (JSON.stringify(images) != JSON.stringify(result.images)) {
                         console.log('New images!');
                         images = result.images;
@@ -46,16 +50,17 @@
             });
         }
 
-        function displayImage() {            
+        function displayImage() {
             if (currentImageIndex < images.length - 1) currentImageIndex++;
             else currentImageIndex = 0;
             $('#image').css('background-image', 'url("/images/' + images[currentImageIndex] + '")');
             slideshowTimeout = setTimeout(displayImage, 10000);
         }
 
-
-        updateImages();
-        setInterval(updateImages, 10000);
+        $(document).ready(function () {
+            updateImages();
+            setInterval(updateImages, 10000);
+        });
     </script>
 </body>
 
