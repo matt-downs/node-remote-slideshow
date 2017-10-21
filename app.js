@@ -3,6 +3,9 @@ const path = require('path');
 const express = require('express');
 const app = express();
 
+const config = require('./config.json');
+
+
 app.use('/images/', express.static('images'))
 
 app.get('/images', function(req, res) {
@@ -21,6 +24,6 @@ app.get('/', function(req, res) {
     res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-app.listen(3001, function() {
-    console.log('Slideshow available on port 3001!');
+app.listen(config.port, function() {
+    console.log('Slideshow available on port ' + config.port);
 });
