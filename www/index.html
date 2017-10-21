@@ -3,10 +3,13 @@
 
 <head>
     <title>Slideshow</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">    
     <style>
         body {
             margin: 0;
             overflow: hidden;
+            color: #fff;
+            font-family: 'Roboto', sans-serif;
         }
 
         #image {
@@ -21,16 +24,38 @@
             /* Safari */
             transition-delay: 1s;
         }
+
+        .top-left {
+            position: absolute;
+            text-shadow: 0 0 50px #000;
+            padding-left: 1.5rem;
+        }
+        #time {
+            font-size: 12rem;
+            margin-top: -2rem;
+            margin-bottom: -4rem;
+        }
+        #date {
+            font-size: 6rem;
+        }
     </style>
 
 </head>
 
 <body>
-    <div id="image"></div>
+    <div class="top-left">
+        <div id="time">1:30</div>
+        <div id="date">Saturday</div>
+    </div>
+
+    <div class="background">
+        <div id="image"></div>
+    </div>
 
     <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
         crossorigin="anonymous"></script>
     <script src="/webapp.js"></script>
+    <script src="/clock.js"></script>
 </body>
 
 </html>

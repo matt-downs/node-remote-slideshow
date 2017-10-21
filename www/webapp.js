@@ -7,14 +7,21 @@ var slideshowTimeout;
 
 // Polls the server and checks for updates
 function updateData() {
-    console.log('Checking for new images...')
+    console.log('Checking for new data...')
     $.ajax({
         url: "/data",
-        success: function (result) {
-            if (JSON.stringify(images) != JSON.stringify(result.images)) {
+        success: function(result) {
+            if (
+                JSON.stringify(config) != JSON.stringify(result.config) ||
+                JSON.stringify(images) != JSON.stringify(result.images)
+            ) {
                 console.log('New data!');
+
                 config = result.config;
                 images = result.images;
+
+                (config.showTime) ? $('#time').show() : $('#time').hide();
+                (config.showDate) ? $('#date').show() : $('#date').hide();
 
                 clearTimeout(slideshowTimeout);
                 tickSlideshow();
@@ -26,8 +33,6 @@ function updateData() {
 
 // Called each time the image should change
 function tickSlideshow() {
-    console.log(config);
-
     if (currentImageIndex < images.length - 1) currentImageIndex++;
     else currentImageIndex = 0;
     $('#image').css('background-image', 'url("/images/' + images[currentImageIndex] + '")');
@@ -35,7 +40,7 @@ function tickSlideshow() {
 }
 
 
-$(document).ready(function () {
+$(document).ready(function() {
     updateData();
     setInterval(updateData, 10000);
 });

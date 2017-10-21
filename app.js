@@ -18,7 +18,8 @@ app.get('/data', function(req, res) {
             images: images,
             config: {
                 delay: config.delay,
-                showClock: config.showClock
+                showTime: config.showTime,
+                showDate: config.showDate
             }
         });
     });

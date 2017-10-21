@@ -1,5 +1,6 @@
 {
     "port": 3001,
     "delay": 5000,
-    "showClock": true
+    "showTime": true,
+    "showDate": true
 }
