@@ -38,7 +38,7 @@
         function updateImages() {
             console.log('Checking for new images...')
             $.ajax({
-                url: "/images",
+                url: "/data",
                 success: function (result) {
                     if (JSON.stringify(images) != JSON.stringify(result.images)) {
                         console.log('New images!');
