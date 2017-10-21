@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Slideshow</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+        }
+
+        #image {
+            width: 100vw;
+            height: 100vh;
+            background-position: center;
+            background-size: cover;
+            -webkit-transition: background-image 2s ease;
+            /* Safari */
+            transition: background-image 2s ease;
+            -webkit-transition-delay: 1s;
+            /* Safari */
+            transition-delay: 1s;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div id="image"></div>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+        crossorigin="anonymous"></script>
+    <script src="/webapp.js"></script>
+</body>
+
+</html>

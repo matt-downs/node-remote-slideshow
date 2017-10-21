@@ -6,7 +6,8 @@ const app = express();
 const config = require('./config.json');
 
 
-app.use('/images/', express.static('images'))
+app.use('/images/', express.static('images'));
+app.use('/', express.static('www'));
 
 app.get('/data', function(req, res) {
     fs.readdir('images', function(err, filenames) {
@@ -23,14 +24,9 @@ app.get('/data', function(req, res) {
     });
 });
 
-app.get('/', function(req, res) {
-    res.sendFile(path.join(__dirname, 'index.html'));
-});
-
 app.listen(config.port, function() {
     console.log('Slideshow available on port ' + config.port);
 });
-
 
 // Accepts an array of filenames as strings
 // Returns an array of images as strings
