@@ -33,9 +33,20 @@ function updateData() {
 
 // Called each time the image should change
 function tickSlideshow() {
+    // Increment currentImageIndex
     if (currentImageIndex < images.length - 1) currentImageIndex++;
     else currentImageIndex = 0;
-    $('#image').css('background-image', 'url("/images/' + images[currentImageIndex] + '")');
+
+    // Generate background image div and append it inside the container
+    var background = $('.background');
+    var image = $('<div class="image"></div>');
+    image.css('background-image', 'url("/images/' + images[currentImageIndex] + '")');
+    background.append(image);
+
+    // Remove trailing image if there are more than 2
+    if ($('.image').length > 2) $('.image')[0].remove();
+
+    // Set tickSlideshow to run again
     slideshowTimeout = setTimeout(tickSlideshow, config.delay);
 }
 

@@ -12,23 +12,27 @@
             font-family: 'Roboto', sans-serif;
         }
 
-        #image {
+        @keyframes fadeIn {
+            0% {opacity: 0;}
+            100% {opacity: 1;}
+         }
+
+        .image {
             width: 100vw;
             height: 100vh;
+            position: absolute;
             background-position: center;
             background-size: cover;
-            -webkit-transition: background-image 2s ease;
-            /* Safari */
-            transition: background-image 2s ease;
-            -webkit-transition-delay: 1s;
-            /* Safari */
-            transition-delay: 1s;
+            animation-duration: 2s;
+            animation-timing-function: ease-in;
+            animation-name: fadeIn;
         }
 
         .top-left {
             position: absolute;
             text-shadow: 0 0 50px #000;
             padding-left: 1.5rem;
+            z-index: 100;
         }
         #time {
             font-size: 12rem;
@@ -48,9 +52,7 @@
         <div id="date">Saturday</div>
     </div>
 
-    <div class="background">
-        <div id="image"></div>
-    </div>
+    <div class="background"></div>
 
     <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
         crossorigin="anonymous"></script>
