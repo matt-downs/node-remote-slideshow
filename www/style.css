@@ -1,0 +1,43 @@
+body {
+    margin: 0;
+    overflow: hidden;
+    color: #fff;
+    font-family: 'Roboto', sans-serif;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+.image {
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    background-position: center;
+    background-size: cover;
+    animation-duration: 2s;
+    animation-timing-function: ease-in;
+    animation-name: fadeIn;
+}
+
+.top-left {
+    position: absolute;
+    text-shadow: 0 0 50px #000;
+    padding-left: 1.5rem;
+    z-index: 100;
+}
+
+#time {
+    font-size: 12rem;
+    margin-top: -2rem;
+    margin-bottom: -4rem;
+}
+
+#date {
+    font-size: 6rem;
+}
