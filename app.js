@@ -16,17 +16,13 @@ app.get('/data', function(req, res) {
         // Reply to the request
         res.json({
             images: images,
-            config: {
-                delay: config.delay,
-                showTime: config.showTime,
-                showDate: config.showDate
-            }
+            config: config.client
         });
     });
 });
 
-app.listen(config.port, function() {
-    console.log('Slideshow available on port ' + config.port);
+app.listen(config.server.port, function() {
+    console.log('Slideshow available on port ' + config.server.port);
 });
 
 // Accepts an array of filenames as strings

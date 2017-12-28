@@ -1,6 +1,10 @@
 {
-    "port": 3001,
-    "delay": 60000,
-    "showTime": true,
-    "showDate": true
+    "server": {
+        "port": 3001
+    },
+    "client": {
+        "delay": 10000,
+        "showTime": true,
+        "showDate": true
+    }
 }
