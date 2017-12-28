@@ -28,14 +28,14 @@ body {
 .top-left {
     position: absolute;
     text-shadow: 0 0 50px #000;
-    padding-left: 1.5rem;
+    padding: 1rem;
     z-index: 100;
 }
 
 #time {
     font-size: 12rem;
     margin-top: -2rem;
-    margin-bottom: -4rem;
+    margin-bottom: -3rem;
 }
 
 #date {
