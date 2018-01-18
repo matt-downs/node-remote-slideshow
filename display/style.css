@@ -3,6 +3,7 @@ body {
     overflow: hidden;
     color: #fff;
     font-family: 'Roboto', sans-serif;
+    font-size: 2rem;
 }
 
 @keyframes fadeIn {
@@ -25,11 +26,26 @@ body {
     animation-name: fadeIn;
 }
 
-.top-left {
-    position: absolute;
-    text-shadow: 0 0 50px #000;
-    padding: 1rem;
+.top,
+.bottom {
     z-index: 100;
+    text-shadow: 0 0 50px #000;
+    position: absolute;
+    padding: 1rem;
+    box-sizing: border-box;
+}
+
+.bottom {
+    bottom: 0;
+}
+
+.right {
+    text-align: right;
+    right: 0;
+}
+
+.left {
+    left: 0;
 }
 
 #time {
@@ -40,4 +56,8 @@ body {
 
 #date {
     font-size: 6rem;
+}
+
+.bottom.right {
+    font-size: 4rem;
 }
