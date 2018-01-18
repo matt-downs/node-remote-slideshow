@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
-var shortid = require('shortid');
+const shortid = require('shortid');
+const sharp = require('sharp');
 const express = require('express');
 const app = express();
 const fileUpload = require('express-fileupload');
@@ -11,6 +12,7 @@ app.set('view engine', 'pug');
 app.use(fileUpload());
 app.use('/display/', express.static('display'));
 app.use('/images/', express.static('images'));
+
 
 app.get('/data', (req, res) => {
     getImages()
@@ -36,20 +38,22 @@ app.get('/', (req, res) => {
         .catch(err => res.status(500).send(err));
 });
 
+
 app.post('/uploadImage', (req, res) => {
     if (req.files && req.files.image && isImage(req.files.image.name)) {
-        let image = req.files.image;
-
-        image.mv('./images/' + shortid.generate() + '.' + getExt(image.name), function(err) {
-            if (err) return res.status(500).send(err);
-            
-            // Clear the image file cache
-            imageCache.updatedAt = 0;
-
-            return res.redirect('/');
-        });
+        let savePath = './images/' + shortid.generate() + '.' + getExt(req.files.image.name);
+        sharp(req.files.image.data)
+            .rotate()
+            .toFile(savePath)
+            .then(() => {
+                // Clear the image file cache
+                imageCache.updatedAt = 0;
+                return res.redirect('/');
+            })
+            .catch((err) => res.status(500).send(err));
     } else res.redirect('/');
 });
+
 
 app.get('/deleteImage/:filename', (req, res) => {
     // Make sure the request it legit
@@ -68,11 +72,15 @@ app.get('/deleteImage/:filename', (req, res) => {
         if (err) return res.status(500).send(err);
 
         // Delete the image
-        fs.unlink('./images/' + req.params.filename, function(err){
+        fs.unlink('./images/' + req.params.filename, function(err) {
             if (err) return res.status(500).send(err);
-            
+
+            // Clear the image file cache
+            imageCache.updatedAt = 0;
+            return res.redirect('/');
+
             res.redirect('/');
-        });  
+        });
     });
 });
 
@@ -81,19 +89,21 @@ let imageCache = {
     updatedAt: 0,
     files: []
 };
+
 function getImages() {
     return new Promise((resolve, reject) => {
         // Only pull images from the fs once every minute
-        if (imageCache.updatedAt < Date.now() - 1000*60) {
+        if (imageCache.updatedAt < Date.now() - 1000 * 60) {
             fs.readdir('images', (err, filenames) => {
                 if (err) return reject(err);
 
                 imageCache.files = onlyImages(filenames)
                 resolve(imageCache.files);
             });
-        } else resolve(imageCache.files); 
+        } else resolve(imageCache.files);
     });
 }
+
 
 // Accepts an array of filenames as strings
 // Returns an array of images as strings
@@ -108,6 +118,7 @@ function onlyImages(files) {
     }
     return images;
 }
+
 
 // Accepts a filename string
 // Returns true if the file extension is jpg or png
