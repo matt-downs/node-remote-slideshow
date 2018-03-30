@@ -10,6 +10,7 @@ const config = require('./config.json');
 
 app.set('view engine', 'pug');
 app.use(fileUpload());
+app.use('/assets/', express.static('assets'));
 app.use('/display/', express.static('display'));
 app.use('/images/', express.static('images'));
 
@@ -33,7 +34,7 @@ app.get('/data', (req, res) => {
 app.get('/', (req, res) => {
     getImages()
         .then(images => {
-            res.render('test', { images: images });
+            res.render('index', { images: images });
         })
         .catch(err => res.status(500).send(err));
 });

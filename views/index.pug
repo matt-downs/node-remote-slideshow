@@ -5,6 +5,7 @@ html(lang="en")
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
+        link(rel="stylesheet", href="/assets/app.css")
 
         title="Hello, world!"
     body
@@ -14,14 +15,17 @@ html(lang="en")
                     form.form-inline(action="/uploadImage", method="post", enctype="multipart/form-data")
                         .form-group
                             input.form-control-file(type="file", name="image", accept="image/*")
-                        input.btn.btn-success(type="submit", value="Upload!")
+                        input.btn.btn-success(type="submit", value="⬆️ Upload!")
+                    hr.my-5
 
-            .row.mt-5
+            .row
                 //- Print out all of the images
                 each image in images
                     .col-sm-6.col-md-4
                         .card.mb-3
-                            img.card-img-top(src="/images/" + image)
+                            //- img.card-img-top(src="/images/" + image)
+                            div.card-img-top.embed-responsive.embed-responsive-16by9
+                                div.embed-responsive-item.image(style="background-image:url(/images/" + image + ");")
                             .card-body
                                 a.btn.btn-outline-danger.float-right(href="/deleteImage/" + image)="🗑"
                 else
