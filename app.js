@@ -1,12 +1,10 @@
 const fs = require('fs');
 const path = require('path');
-const shortid = require('shortid');
 const sharp = require('sharp');
 const express = require('express');
 const app = express();
 const fileUpload = require('express-fileupload');
 const config = require('./config.json');
-
 
 app.set('view engine', 'pug');
 app.use(fileUpload());
@@ -15,20 +13,11 @@ app.use('/display/', express.static('display'));
 app.use('/images/', express.static('images'));
 
 
-app.get('/data', (req, res) => {
-    getImages()
-        .then(images => {
-            res.json({
-                images: images,
-                config: config.client
-            });
-        })
-        .catch(err => res.status(500).send(err));
-});
-
-// app.get('/sensorData', (req, res) => {
-//     res.json({ "energy": 123.43, "temp": 26.00, "humidity": 60.00 });
-// });
+// Hold an in memory array of known images
+let imageCache = {
+    updatedAt: 0,
+    files: []
+};
 
 
 app.get('/', (req, res) => {
@@ -40,9 +29,29 @@ app.get('/', (req, res) => {
 });
 
 
+// Returns JSON containing the list of images and slideshow settings
+app.get('/data', (req, res) => {
+    getImages()
+        .then(images => {
+            res.json({
+                images: images,
+                config: config.client
+            });
+        })
+        .catch(err => res.status(500).send(err));
+});
+
+
+// app.get('/sensorData', (req, res) => {
+//     res.json({ "energy": 123.43, "temp": 26.00, "humidity": 60.00 });
+// });
+
+
 app.post('/uploadImage', (req, res) => {
+    let timestamp = Date.now().toString();
+
     if (req.files && req.files.image && isImage(req.files.image.name)) {
-        let savePath = './images/' + shortid.generate() + '.' + getExt(req.files.image.name);
+        let savePath = './images/' + timestamp + '.' + getExt(req.files.image.name);
         sharp(req.files.image.data)
             .rotate()
             .toFile(savePath)
@@ -86,11 +95,6 @@ app.get('/deleteImage/:filename', (req, res) => {
 });
 
 
-let imageCache = {
-    updatedAt: 0,
-    files: []
-};
-
 function getImages() {
     return new Promise((resolve, reject) => {
         // Only pull images from the fs once every minute
@@ -98,11 +102,31 @@ function getImages() {
             fs.readdir('images', (err, filenames) => {
                 if (err) return reject(err);
 
-                imageCache.files = onlyImages(filenames)
+                let images = onlyImages(filenames);
+                imageCache.files = filterOldImages(images);
+
                 resolve(imageCache.files);
             });
         } else resolve(imageCache.files);
     });
+}
+
+
+function filterOldImages(images) {
+    let filteredImages = [];
+
+    for (let filename of images) {
+        // Convert the first part of the filename to an integer
+        let timestamp = parseInt(filename.split('.')[0]);
+        
+        // If images are newer than 1 week old
+        // 604800000 == 1 week
+        if (timestamp > Date.now() - 604800000) {
+            filteredImages.push(filename);
+        }
+    }
+
+    return filteredImages;
 }
 
 
